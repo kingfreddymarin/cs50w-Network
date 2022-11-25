@@ -11,8 +11,10 @@ class User(AbstractUser):
 class Profile(models.Model):
     user = models.ForeignKey(
         "User", on_delete=models.CASCADE, related_name="UserProfile")
-    followers = models.ManyToManyField("User", related_name="userFollowers")
-    following = models.ManyToManyField("User", related_name="userFollowing")
+    followers = models.ManyToManyField(
+        "User", related_name="userFollowers", null=True, blank=True)
+    following = models.ManyToManyField(
+        "User", related_name="userFollowing", null=True, blank=True)
 
     def serialize(self, user):
         return {
@@ -26,7 +28,7 @@ class Profile(models.Model):
         }
 
     def __str__(self):
-        return f"{self.user}'s profile"
+        return f"{self.user}"
 
 
 # create post model
@@ -35,7 +37,8 @@ class Profile(models.Model):
 class Post(models.Model):
     content = models.CharField(max_length=280, default="")
     timestamp = models.DateTimeField(auto_now_add=True)
-    likes = models.ManyToManyField("Profile", related_name="likedPost")
+    likes = models.ManyToManyField(
+        "Profile", related_name="likedPost", null=True, blank=True)
     creator = models.ForeignKey(
         "Profile", on_delete=models.CASCADE, related_name="postCreator")
 
@@ -48,6 +51,9 @@ class Post(models.Model):
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
             "like_count": self.likes.count(),
             "like_list": self.likes.all(),
-            "isEditable": self.creator.user == user,
+            "isEditable": self.creator.user == user
             # "isLiked": not user.is_anonymous and self in
         }
+
+    def __str__(self):
+        return f"{self.creator.user} tweeted {self.content} @ {self.timestamp}"

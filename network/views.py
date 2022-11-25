@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
+from .models import User, Profile, Post
 
 
 def index(request):
@@ -52,7 +52,9 @@ def register(request):
         # Attempt to create new user
         try:
             user = User.objects.create_user(username, email, password)
+            profile = Profile(user=user)
             user.save()
+            profile.save()
         except IntegrityError:
             return render(request, "network/register.html", {
                 "message": "Username already taken."
