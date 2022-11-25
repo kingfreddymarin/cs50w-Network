@@ -50,7 +50,7 @@ class Post(models.Model):
             "post_creator_id": self.creator.id,
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
             "like_count": self.likes.count(),
-            "like_list": self.likes.all(),
+            "like_list": self.likes.filter(),
             "isEditable": self.creator.user == user
             # "isLiked": not user.is_anonymous and self in
         }
