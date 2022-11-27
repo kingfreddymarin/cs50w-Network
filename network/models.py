@@ -46,7 +46,7 @@ class Post(models.Model):
         return {
             "id": self.id,
             "content": self.content,
-            "post_creator": self.creator.username,
+            "post_creator": self.creator.user,
             "post_creator_id": self.creator.id,
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
             "like_count": self.likes.count(),
