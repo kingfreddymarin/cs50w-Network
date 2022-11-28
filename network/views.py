@@ -5,9 +5,11 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.core.serializers import serialize
-from django.forms.models import model_to_dict
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 from .models import User, Profile, Post
+from .serializers import PostSerializer
 
 
 def index(request):
@@ -67,19 +69,8 @@ def register(request):
     else:
         return render(request, "network/register.html")
 
-
-def get_posts(request, posts):
-    data = serialize(
-        'json', Post.objects.all())
-    # # Filter emails returned based on mailbox
-    # if posts == "all":
-    #     postList = Post.objects.all()
-    # else:
-    #     return JsonResponse({"error": "Invalid endpoint."}, status=400)
-
-    # # Return emails in reverse chronologial order
-    # postList = postList.order_by("-timestamp").all()
-    # return JsonResponse([post.serialize() for post in postList], safe=False)
-    # # return JsonResponse(list(postList), safe=False)
-    return JsonResponse(data, safe=False)
-    pass
+@api_view(['GET'])
+def getPosts(request):
+    posts = Post.objects.all()
+    serializer = PostSerializer(posts, many=True)
+    return Response(serializer.data)

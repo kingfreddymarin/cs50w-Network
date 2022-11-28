@@ -10,5 +10,5 @@ urlpatterns = [
     path("register", views.register, name="register"),
 
     #APIS
-    path("posts/<str:posts>", views.get_posts, name="posts")
+    path("posts", views.getPosts, name="posts")
 ]
