@@ -1,6 +1,7 @@
+import json
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -63,3 +64,15 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+def get_posts(request, posts):
+
+    # Filter emails returned based on mailbox
+    if posts == "all":
+        postList = Post.objects.all()
+    else:
+        return JsonResponse({"error": "Invalid endpoint."}, status=400)
+
+    # Return emails in reverse chronologial order
+    # postList = postList.order_by("-timestamp").all()
+    return JsonResponse([post.serialize(request.user) for post in postList], safe=False)
