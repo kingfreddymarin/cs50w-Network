@@ -65,6 +65,7 @@ def register(request):
     else:
         return render(request, "network/register.html")
 
+
 def get_posts(request, posts):
 
     # Filter emails returned based on mailbox
@@ -74,5 +75,6 @@ def get_posts(request, posts):
         return JsonResponse({"error": "Invalid endpoint."}, status=400)
 
     # Return emails in reverse chronologial order
-    # postList = postList.order_by("-timestamp").all()
-    return JsonResponse([post.serialize(request.user) for post in postList], safe=False)
+    postList = postList.order_by("-timestamp").all()
+    return JsonResponse([post.serialize() for post in postList], safe=False)
+    # return JsonResponse(list(postList), safe=False)

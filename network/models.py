@@ -26,9 +26,6 @@ class Profile(models.Model):
             "followingList": self.following.all()
         }
 
-    def __str__(self):
-        return f"{self.user}"
-
 
 # create post model
 
@@ -39,7 +36,7 @@ class Post(models.Model):
     likes = models.ManyToManyField(
         "Profile", related_name="likedPost", null=True, blank=True)
     creator = models.ForeignKey(
-        "Profile", on_delete=models.CASCADE, related_name="postCreator")
+        "Profile", on_delete=models.PROTECT, related_name="postCreator")
 
     def serialize(self):
         return {
@@ -48,8 +45,5 @@ class Post(models.Model):
             "creator": self.creator.user,
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
             "like_count": self.likes.count(),
-            "like_list": self.likes.filter()
+            "like_list": self.likes.all()
         }
-
-    def __str__(self):
-        return f"{self.creator.user} tweeted {self.content} @ {self.timestamp}"
