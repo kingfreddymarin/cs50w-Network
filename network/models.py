@@ -16,15 +16,14 @@ class Profile(models.Model):
     following = models.ManyToManyField(
         "User", related_name="userFollowing", null=True, blank=True)
 
-    def serialize(self, user):
+    def serialize(self):
         return {
             "id": self.id,
-            "username": self.user.username,
+            "username": self.user,
             "followerCount": self.followers.count(),
             "followerList": self.followers.all(),
-            "following_count": self.following.count(),
-            "followerList": self.followers.all(),
-            "followAvailable": (not user.is_anonymous) and self.user != user
+            "followingCount": self.following.count(),
+            "followingList": self.following.all()
         }
 
     def __str__(self):
@@ -42,17 +41,14 @@ class Post(models.Model):
     creator = models.ForeignKey(
         "Profile", on_delete=models.CASCADE, related_name="postCreator")
 
-    def serialize(self, user):
+    def serialize(self):
         return {
             "id": self.id,
             "content": self.content,
-            "post_creator": self.creator.username,
-            "post_creator_id": self.creator.id,
+            "creator": self.creator.user,
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
             "like_count": self.likes.count(),
-            "like_list": self.likes.filter(),
-            "isEditable": self.creator.user == user
-            # "isLiked": not user.is_anonymous and self in
+            "like_list": self.likes.filter()
         }
 
     def __str__(self):
