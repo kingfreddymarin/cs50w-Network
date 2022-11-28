@@ -4,6 +4,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
+from django.core.serializers import serialize
 
 from .models import User, Profile, Post
 
@@ -67,14 +68,17 @@ def register(request):
 
 
 def get_posts(request, posts):
+    data = serialize(
+        'json', Post.objects.all())
+    # # Filter emails returned based on mailbox
+    # if posts == "all":
+    #     postList = Post.objects.all()
+    # else:
+    #     return JsonResponse({"error": "Invalid endpoint."}, status=400)
 
-    # Filter emails returned based on mailbox
-    if posts == "all":
-        postList = Post.objects.all()
-    else:
-        return JsonResponse({"error": "Invalid endpoint."}, status=400)
-
-    # Return emails in reverse chronologial order
-    postList = postList.order_by("-timestamp").all()
-    return JsonResponse([post.serialize() for post in postList], safe=False)
-    # return JsonResponse(list(postList), safe=False)
+    # # Return emails in reverse chronologial order
+    # postList = postList.order_by("-timestamp").all()
+    # return JsonResponse([post.serialize() for post in postList], safe=False)
+    # # return JsonResponse(list(postList), safe=False)
+    return JsonResponse(data, safe=False)
+    pass

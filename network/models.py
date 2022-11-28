@@ -38,12 +38,12 @@ class Post(models.Model):
     creator = models.ForeignKey(
         "Profile", on_delete=models.PROTECT, related_name="postCreator")
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "content": self.content,
-            "creator": self.creator.user,
-            "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
-            "like_count": self.likes.count(),
-            "like_list": self.likes.all()
-        }
+    # def serialize(self):
+    #     return {
+    #         "id": self.id,
+    #         "content": self.content,
+    #         "creator": self.creator.user,
+    #         "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
+    #         "like_count": self.likes.count(),
+    #         "like_list": self.likes.all()
+    #     }
