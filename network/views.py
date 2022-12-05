@@ -13,7 +13,7 @@ from .serializers import PostSerializer
 
 
 def index(request):
-    return render(request, "network/index.html")
+    return render(request, "network/posts.html")
 
 
 def login_view(request):

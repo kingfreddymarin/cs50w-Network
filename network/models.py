@@ -16,15 +16,8 @@ class Profile(models.Model):
     following = models.ManyToManyField(
         "User", related_name="userFollowing", null=True, blank=True)
 
-    def serialize(self):
-        return {
-            "id": self.id,
-            "username": self.user,
-            "followerCount": self.followers.count(),
-            "followerList": self.followers.all(),
-            "followingCount": self.following.count(),
-            "followingList": self.following.all()
-        }
+    def __str__(self):
+        return str(self.user)
 
 
 # create post model
@@ -38,4 +31,5 @@ class Post(models.Model):
     creator = models.ForeignKey(
         "Profile", on_delete=models.PROTECT, related_name="postCreator")
 
-    
+    def __str__(self):
+        return f"post by {self.creator} at {self.timestamp}"
