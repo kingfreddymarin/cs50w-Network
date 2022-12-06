@@ -10,16 +10,13 @@ const Home = () => {
    useEffect(() => {
       fetch('/current/')
          .then((response) => response.json())
-         .then((data) => setLoggedIn(data));
+         .then((data) => setLoggedIn(data.username));
       fetch('/posts/')
          .then((response) => response.json())
          .then((data) => setPosts(data));
       fetch('/profiles/')
          .then((response) => response.json())
-         .then((data) => setProfiles(data));
-      console.log('====================================');
-      console.log(loggedIn);
-      console.log('====================================');
+         .then((data) => setProfiles(data))
    }, []);
 
    const profileHandler = (creator) => {
