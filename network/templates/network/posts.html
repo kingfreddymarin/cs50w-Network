@@ -1,3 +1,24 @@
-{% extends "network/layout.html" %} {% block body %}
+{% extends "network/layout.html" %} 
+{% block body %} 
+   {%if user.is_authenticated%} 
+   <form id="tweet-form">
+      <div id="tweetbox" class="wrapper">
+         <div class="input-box">
+            <h6> Tweet your mind out </h6>
+         <div class="tweet-area">
+            <span class="placeholder"></span>
+            <div class="input editable" contenteditable="true" spellcheck="false"></div>
+            <div class="input readonly" contenteditable="true" spellcheck="false"></div>
+         </div>
+         </div>
+         <div class="bottom">
+         <div class="content">
+            <input disabled class="form-control" value="{{ request.user }}" />
+            <input type="submit">Tweet</input>
+         </div>
+         </div>
+      </div>
+   </form>
+   {%endif%}
 <div id="home"></div>
 {% endblock %}

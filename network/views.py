@@ -69,12 +69,27 @@ def register(request):
     else:
         return render(request, "network/register.html")
 
+@api_view(['POST'])
+def tweet(request):
+    data = json.loads(request.body)
+    content = data.get('content',"")
+    timestamp = data.get('timestamp', "")
+    creator = data.get('creator', "")
+    newTweet = Post(
+        content=content,
+        timestamp=timestamp,
+        creator=creator,
+        likes=[]
+    )
+    newTweet.save()
+    pass
 
 @api_view(['GET'])
 def getPosts(request):
     posts = Post.objects.all()
     serializer = PostSerializer(posts, many=True)
     return Response(serializer.data)
+    
 
 
 @api_view(['GET'])

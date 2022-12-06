@@ -5,6 +5,11 @@
   <head>
     <title>{% block title %}Social Network{% endblock %}</title>
     <script type="text/babel" src="{% static 'network/home.jsx'%}"></script>
+    <script type="text/babel" src="{% static 'network/Profile.jsx'%}"></script>
+    <script
+      src="https://kit.fontawesome.com/2b2479925a.js"
+      crossorigin="anonymous"
+    ></script>
     <script
       src="https://unpkg.com/react@17/umd/react.production.min.js"
       crossorigin
@@ -15,6 +20,8 @@
     ></script>
     <script src="https://unpkg.com/react-router-dom@5.0.0/umd/react-router-dom.min.js"></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -24,7 +31,9 @@
     <link href="{% static 'network/styles.css' %}" rel="stylesheet" />
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav
+      class="d-flex flex-row align-items-center navbar navbar-expand-lg navbar-light bg-light justify-content-between"
+    >
       <a class="navbar-brand" href="#">notTwitter</a>
       <div>
         <ul class="navbar-nav mr-auto">
