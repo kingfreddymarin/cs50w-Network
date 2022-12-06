@@ -12,6 +12,8 @@ urlpatterns = [
     # APIS
     path("tweet/", views.tweet, name="tweet"),
     path("posts/", views.getPosts, name="posts"),
-    path("profiles/", views.getProfiles, name="profiles")
+    path("profiles/", views.getProfiles, name="profiles"),
+    path("current/", views.current_user, name="currentUser")
+
 
 ]

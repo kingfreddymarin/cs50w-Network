@@ -75,11 +75,9 @@ def tweet(request):
         return JsonResponse({"error": "POST request required."}, status=400)
     data = json.loads(request.body)
     content = data.get('content',"")
-    timestamp = data.get('timestamp', "")
     creator = data.get('creator', "")
     newTweet = Post(
         content=content,
-        timestamp=timestamp,
         creator=creator,
         likes=[]
     )
@@ -99,3 +97,11 @@ def getProfiles(request):
     profiles = Profile.objects.all()
     serializer = ProfileSerializer(profiles, many=True)
     return Response(serializer.data)
+# get current user
+@api_view(['GET'])
+def current_user(request):
+    user = request.user
+    return Response({
+      'username' : user.username,
+       # and so on...
+    })

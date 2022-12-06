@@ -4,15 +4,22 @@ const Home = () => {
    const [profiles, setProfiles] = useState([])
    const [singleProfile, setSingleProfile] = useState(null)
    const [toggleProfile, setToggleProfile] = useState(false)
+   const [loggedIn, setLoggedIn] = useState("")
 
 
    useEffect(() => {
+      fetch('/current/')
+         .then((response) => response.json())
+         .then((data) => setLoggedIn(data));
       fetch('/posts/')
          .then((response) => response.json())
          .then((data) => setPosts(data));
       fetch('/profiles/')
          .then((response) => response.json())
          .then((data) => setProfiles(data));
+      console.log('====================================');
+      console.log(loggedIn);
+      console.log('====================================');
    }, []);
 
    const profileHandler = (creator) => {
@@ -28,8 +35,30 @@ const Home = () => {
    return (
       <div >
          {toggleProfile && <Profile profile={singleProfile} closeProfile={setToggleProfile} posts={posts} setPosts={setPosts} />}
+         {loggedIn && (
+            <form id="tweet-form">
+            <div id="tweetbox" class="wrapper">
+               <div class="input-box">
+                  <h6> Tweet your mind out </h6>
+                  <div class="tweet-area">
+                     <span class="placeholder"></span>
+                     <div class="input editable" contenteditable="true" spellcheck="false"></div>
+                     <div class="input readonly" contenteditable="true" spellcheck="false"></div>
+                  </div>
+               </div>
+               <div class="bottom">
+                  <div class="content">
+                     <input type="hidden" class="form-control" value="{}" />
+                     <button type="submit">Tweet</button>
+                  </div>
+               </div>
+            </div>
+      </form>
+         )}
          {!toggleProfile && (
+            
             <div>
+               
                {posts.map((post) => {
                   const { content, timestamp, creator, likes } = post;
                   return (
