@@ -10,6 +10,7 @@ urlpatterns = [
     path("register", views.register, name="register"),
 
     # APIS
+    path("tweet/", views.tweet, name="tweet"),
     path("posts/", views.getPosts, name="posts"),
     path("profiles/", views.getProfiles, name="profiles")
 

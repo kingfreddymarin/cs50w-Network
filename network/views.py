@@ -71,6 +71,8 @@ def register(request):
 
 @api_view(['POST'])
 def tweet(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
     data = json.loads(request.body)
     content = data.get('content',"")
     timestamp = data.get('timestamp', "")
@@ -82,7 +84,7 @@ def tweet(request):
         likes=[]
     )
     newTweet.save()
-    pass
+    return HttpResponseRedirect(reverse("index"))
 
 @api_view(['GET'])
 def getPosts(request):
