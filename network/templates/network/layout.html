@@ -4,7 +4,7 @@
 <html lang="en">
   <head>
     <title>{% block title %}Social Network{% endblock %}</title>
-    <script type="text/babel" src="{% static 'network/app.jsx'%}"></script>
+    <script type="text/babel" src="{% static 'network/home.jsx'%}"></script>
     <script
       src="https://unpkg.com/react@17/umd/react.production.min.js"
       crossorigin
@@ -26,7 +26,6 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">notTwitter</a>
-
       <div>
         <ul class="navbar-nav mr-auto">
           {% if user.is_authenticated %}
@@ -57,7 +56,6 @@
         </ul>
       </div>
     </nav>
-
     <div class="body">{% block body %} {% endblock %}</div>
   </body>
 </html>

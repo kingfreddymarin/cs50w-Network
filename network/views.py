@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from .models import User, Profile, Post
-from .serializers import PostSerializer
+from .serializers import PostSerializer, ProfileSerializer
 
 
 def index(request):
@@ -69,8 +69,16 @@ def register(request):
     else:
         return render(request, "network/register.html")
 
+
 @api_view(['GET'])
 def getPosts(request):
     posts = Post.objects.all()
     serializer = PostSerializer(posts, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def getProfiles(request):
+    profiles = Profile.objects.all()
+    serializer = ProfileSerializer(profiles, many=True)
     return Response(serializer.data)
