@@ -75,11 +75,12 @@ def tweet(request):
         return JsonResponse({"error": "POST request required."}, status=400)
     data = json.loads(request.body)
     content = data.get('content',"")
-    creator = data.get('creator', "")
+    creatorProfile = data.get('creator', "")
+    user = User.objects.get(username=creatorProfile)
+    creator = Profile.objects.get(user = user)
     newTweet = Post(
         content=content,
-        creator=creator,
-        likes=[]
+        creator=creator
     )
     newTweet.save()
     return HttpResponseRedirect(reverse("index"))
@@ -103,5 +104,4 @@ def current_user(request):
     user = request.user
     return Response({
       'username' : user.username,
-       # and so on...
     })
