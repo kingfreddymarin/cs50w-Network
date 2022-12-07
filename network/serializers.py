@@ -6,7 +6,6 @@ from .models import Post, Profile
 #     def to_representation(self, value):
 #         return value.likes.profile.username
 
-
 class PostSerializer(serializers.ModelSerializer):
     creator = serializers.ReadOnlyField(source='creator.user.username')
     likes = serializers.StringRelatedField(many=True)

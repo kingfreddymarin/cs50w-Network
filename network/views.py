@@ -69,14 +69,12 @@ def register(request):
     else:
         return render(request, "network/register.html")
 
-@api_view(['POST'])
 def tweet(request):
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
-    data = json.loads(request.body)
-    content = data.get('content',"")
-    creatorProfile = data.get('creator', "")
-    user = User.objects.get(username=creatorProfile)
+    content = request.POST["content"]
+    creator = request.user
+    user = User.objects.get(username=creator)
     creator = Profile.objects.get(user = user)
     newTweet = Post(
         content=content,

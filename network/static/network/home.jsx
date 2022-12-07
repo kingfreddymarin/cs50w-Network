@@ -5,77 +5,14 @@ const Home = () => {
    const [profiles, setProfiles] = useState([])
    const [singleProfile, setSingleProfile] = useState(null)
    const [toggleProfile, setToggleProfile] = useState(false)
-   const [loggedIn, setLoggedIn] = useState("")
-   const [tweet, setTweet]= useState("")
-   const [csrftoken, setCsrftoken] = useState(null)
-
-   function getCookie(name) {
-      var cookieValue = null;
-      if (document.cookie && document.cookie !== '') {
-         var cookies = document.cookie.split(';');
-         for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-               cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-               break;
-         }
-         }
-      }
-      return cookieValue;
-   }
-
-   // let csrftoken = getCookie('csrftoken');
-   const CSRFToken = () => {
-      return (
-         <input type="hidden" name="csrfmiddlewaretoken" value={csrftoken} />
-      );
-   };
-
-   const postTweet = () => {
-      
-      const twt = {
-         content: tweet,
-         creator: loggedIn
-      }
-      axios.post('http://127.0.0.1:8000/tweet/', 
-      twt, 
-      {withCredentials: true},
-      {
-         headers: 
-         {"X-CSRFToken": csrftoken}
-      })
-       .then(function (response) {
-         console.log(response);
-       })
-       .catch(function (error) {
-         console.log(error);
-       });
-      // fetch('/tweet/', {
-      //    method: 'POST',
-      //    headers: {
-      //       "Accept": "application/json",
-      //       "Content-Type": "application/json",
-      //       "X-CSRFToken": csrftoken
-      //    },
-      //    Body: JSON.stringify(twt)
-      // })
-      // .then((response) => response.json())
-      // .then((result)=>{
-      //    console.log(result)
-      // })
-   }
 
    useEffect(() => {
-      setCsrftoken(getCookie('csrftoken'))
-      fetch('/current/')
-         .then((response) => response.json())
-         .then((data) => setLoggedIn(data.username));
       fetch('/posts/')
-         .then((response) => response.json())
-         .then((data) => setPosts(data));
+      .then((response) => response.json())
+      .then((data) => setPosts(data));
       fetch('/profiles/')
-         .then((response) => response.json())
-         .then((data) => setProfiles(data))
+      .then((response) => response.json())
+      .then((data) => setProfiles(data))
    }, []);
 
    const profileHandler = (creator, e) => {
@@ -91,32 +28,6 @@ const Home = () => {
    return (
       <div >
          {toggleProfile && <Profile profile={singleProfile} closeProfile={setToggleProfile} posts={posts} setPosts={setPosts} />}
-         {loggedIn && (
-            <form id="tweet-form" onSubmit={()=>postTweet()}>
-               <CSRFToken/>
-               <div id="tweetbox" class="wrapper">
-                  <div class="input-box">
-                     <h6> Tweet your mind out </h6>
-                     <div class="tweet-area">
-                        <span class="placeholder"></span>
-                        <textarea id="content"
-                           value={tweet}
-                           required
-                           onChange={(e) => {setTweet(e.target.value)}}
-                           name="content"
-                           cols="30" 
-                           rows="10"
-                        ></textarea>
-                     </div>
-                  </div>
-                  <div class="bottom">
-                     <div class="content">
-                        <input  onClick={()=>postTweet()} className="btn btn-primary" value="Tweet" type="button"/>
-                     </div>
-                  </div>
-               </div>
-            </form>
-         )}
          {!toggleProfile && (
             
             <div>
