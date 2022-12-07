@@ -1,5 +1,5 @@
 
-const Profile = ({ profile, closeProfile, posts }) => {
+const Profile = ({ profile, closeProfile, posts, currentUser }) => {
    const { id, user, followers, following } = profile;
    const [profilePosts, setProfilePosts] = useState(posts)
    useEffect(() => {
@@ -18,7 +18,7 @@ const Profile = ({ profile, closeProfile, posts }) => {
                </div>
                <div class="mt-5 text-center">
                   <h4 class="mb-1">{user}</h4>
-                  <button class="btn btn-primary btn-sm follow">Follow</button>
+                  {user === currentUser ? "" : <button class="btn btn-primary btn-sm follow">Follow</button>}
                   <div class="d-flex justify-content-between align-items-center mt-4 px-4">
                      <div class="stats">
                         <h6 class="mb-0">Followers</h6>

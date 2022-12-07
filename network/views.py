@@ -85,7 +85,7 @@ def tweet(request):
 
 @api_view(['GET'])
 def getPosts(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-timestamp')
     serializer = PostSerializer(posts, many=True)
     return Response(serializer.data)
     
