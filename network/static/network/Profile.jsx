@@ -35,6 +35,7 @@ const Profile = ({ profile, closeProfile, posts, currentUser, profiles, setToggl
          <div>
             {profilePosts.map((post) => {
                return <Tweet key={post.id} {...post} 
+                     post={post} 
                      profiles={profiles} 
                      setSingleProfile={setSingleProfile} 
                      setToggleProfile={setToggleProfile}

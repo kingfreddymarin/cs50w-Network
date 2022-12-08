@@ -13,7 +13,10 @@ urlpatterns = [
     path("tweet/", views.tweet, name="tweet"),
     path("posts/", views.getPosts, name="posts"),
     path("profiles/", views.getProfiles, name="profiles"),
-    path("current/", views.current_user, name="currentUser")
+    path("current/", views.current_user, name="currentUser"),
+    path("like/", views.like, name="like"),
+    path("dislike/", views.dislike, name="dislike")
+
 
 
 ]

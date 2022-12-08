@@ -1,6 +1,6 @@
 const { useEffect, useState } = React;
 
-const Tweet = ({ content, timestamp, creator, likes, profiles, setSingleProfile, setToggleProfile, currentUser }) => {
+const Tweet = ({ content, timestamp, creator, likes, profiles, setSingleProfile, setToggleProfile, currentUser, post }) => {
 
     const [likeArray, setLikeArray] = useState(likes);
     const [likesLength, setLikesLength] = useState(likeArray.length)
@@ -25,6 +25,10 @@ const Tweet = ({ content, timestamp, creator, likes, profiles, setSingleProfile,
                 setLikeArray(newArray)
                 setLikesLength(newArray.length)
                 setFill(true)
+                const edit = {
+                    ...post,
+                    likes: likeArray
+                }
                 // console.log(newArray)
 
             } else {

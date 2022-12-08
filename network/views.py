@@ -101,5 +101,27 @@ def getProfiles(request):
 def current_user(request):
     user = request.user
     return Response({
-      'username' : user.username,
+        'username' : user.username,
     })
+
+@api_view(['POST'])
+def like(request):
+    postId = request.data["id"]
+    post = Post.objects.get(id=postId)
+    currentUser = request.data["currentUser"]
+    user = User.objects.get(username=currentUser)
+    userId = user.id
+    profile = Profile.objects.get(user=userId)
+    post.likes.add(profile)
+    return Response(request.data)
+
+@api_view(['POST'])
+def dislike(request):
+    postId = request.data["id"]
+    post = Post.objects.get(id=postId)
+    currentUser = request.data["currentUser"]
+    user = User.objects.get(username=currentUser)
+    userId = user.id
+    profile = Profile.objects.get(user=userId)
+    post.likes.remove(profile)
+    return Response(request.data)

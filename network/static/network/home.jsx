@@ -34,7 +34,8 @@ const Home = () => {
             <div>
                
                {posts.map((post) => {
-                  return <Tweet key={post.id} {...post} 
+                  return <Tweet key={post.id} {...post}
+                                 post={post} 
                                  profiles={profiles} 
                                  setSingleProfile={setSingleProfile} 
                                  setToggleProfile={setToggleProfile}
