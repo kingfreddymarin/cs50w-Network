@@ -25,7 +25,10 @@ const Home = () => {
                                     closeProfile={setToggleProfile} 
                                     posts={posts} 
                                     setPosts={setPosts} 
-                                    currentUser={currentUser}/>}
+                                    currentUser={currentUser}
+                                    profiles={profiles} 
+                                    setSingleProfile={setSingleProfile}
+                                    setToggleProfile={setToggleProfile} />}
          {!toggleProfile && (
             
             <div>

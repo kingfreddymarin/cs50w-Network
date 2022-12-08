@@ -1,5 +1,5 @@
 
-const Profile = ({ profile, closeProfile, posts, currentUser }) => {
+const Profile = ({ profile, closeProfile, posts, currentUser, profiles, setToggleProfile, setSingleProfile }) => {
    const { id, user, followers, following } = profile;
    const [profilePosts, setProfilePosts] = useState(posts)
    useEffect(() => {
@@ -34,28 +34,11 @@ const Profile = ({ profile, closeProfile, posts, currentUser }) => {
          </div>
          <div>
             {profilePosts.map((post) => {
-               const { content, timestamp, creator, likes } = post;
-               return (
-                  <div class="tweet-wrap">
-                     <div class="tweet-header">
-                        <div class="tweet-header-info">
-                           <div className="creator" onClick={() => profileHandler(creator)}>
-                              {creator} <span>@{creator}</span><span>. {timestamp}
-                              </span>
-                           </div>
-                           <p>{content}</p>
-                        </div>
-                     </div>
-                     <div class="tweet-info-counts">
-                        <div class="likes">
-                           <svg class="feather feather-heart sc-dnqmqq jxshSx" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                           <div class="likes-count">
-                              {likes.length}
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               )
+               return <Tweet key={post.id} {...post} 
+                     profiles={profiles} 
+                     setSingleProfile={setSingleProfile} 
+                     setToggleProfile={setToggleProfile}
+                     currentUser={currentUser}/>
             })}
          </div>
       </div>
