@@ -1,5 +1,5 @@
 
-const Profile = ({ profile, closeProfile, posts, currentUser, profiles, setToggleProfile, setSingleProfile }) => {
+const Profile = ({ profile, closeProfile, posts, currentUser, profiles, setToggleProfile, setSingleProfile}) => {
    const { id, user, followers, following } = profile;
    const [profilePosts, setProfilePosts] = useState(posts)
    useEffect(() => {

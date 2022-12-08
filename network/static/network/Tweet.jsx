@@ -2,9 +2,8 @@ const { useEffect, useState } = React;
 
 const Tweet = ({ content, timestamp, creator, likes, profiles, setSingleProfile, setToggleProfile, currentUser }) => {
 
-    let likeArray = likes;
+    const [likeArray, setLikeArray] = useState(likes);
     const [likesLength, setLikesLength] = useState(likeArray.length)
-
     const [fill, setFill] = useState(false)
 
     const profileHandler = (creator) => {
@@ -19,16 +18,22 @@ const Tweet = ({ content, timestamp, creator, likes, profiles, setSingleProfile,
     
     let likeHandler = () => {
         if(currentUser){
-        if(likeArray.indexOf(currentUser)===-1){
-            likeArray.unshift(currentUser)
-            setLikesLength(likeArray.length)
-            setFill(true)
-        } else {
-            let newArray = likeArray.filter(user => user !== currentUser)
-            likeArray = newArray
-            setLikesLength(likeArray.length)
-            setFill(false)
-        }
+            if(likeArray.indexOf(currentUser)===-1){
+                // likeArray.unshift(currentUser)
+                const newArray = likeArray
+                newArray.unshift(currentUser)
+                setLikeArray(newArray)
+                setLikesLength(newArray.length)
+                setFill(true)
+                // console.log(newArray)
+
+            } else {
+                let newArray = likeArray.filter(user => user !== currentUser)
+                setLikeArray(newArray)
+                setLikesLength(newArray.length)
+                setFill(false)
+                // console.log(newArray)
+            }
         }else{
         console.log("sign in first")
         }
@@ -40,7 +45,7 @@ const Tweet = ({ content, timestamp, creator, likes, profiles, setSingleProfile,
         } else {
             setFill(true)
         }
-    }, [])
+    }, [likeArray])
 
     return (
         <div class="tweet-wrap">
