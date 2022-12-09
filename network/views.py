@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.core.serializers import serialize
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import User, Profile, Post
 from .serializers import PostSerializer, ProfileSerializer
@@ -14,7 +15,6 @@ from .serializers import PostSerializer, ProfileSerializer
 
 def index(request):
     return render(request, "network/posts.html")
-
 
 def login_view(request):
     if request.method == "POST":
@@ -35,11 +35,9 @@ def login_view(request):
     else:
         return render(request, "network/login.html")
 
-
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
-
 
 def register(request):
     if request.method == "POST":
@@ -68,6 +66,7 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
 
 def tweet(request):
     if request.method != "POST":
@@ -104,7 +103,9 @@ def current_user(request):
         'username' : user.username,
     })
 
+
 @api_view(['POST'])
+@csrf_exempt
 def like(request):
     postId = request.data["id"]
     post = Post.objects.get(id=postId)
@@ -116,6 +117,7 @@ def like(request):
     return Response(request.data)
 
 @api_view(['POST'])
+@csrf_exempt
 def dislike(request):
     postId = request.data["id"]
     post = Post.objects.get(id=postId)

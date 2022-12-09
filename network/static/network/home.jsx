@@ -7,7 +7,27 @@ const Home = () => {
    const [toggleProfile, setToggleProfile] = useState(false)
    const [currentUser, setCurrentUser] = useState(null)
 
+   const getCookie=(name)=> {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+         var cookies = document.cookie.split(';');
+         for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+               cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+               break;
+            }
+         }
+      }
+      return cookieValue;
+   }
+   var csrftoken = getCookie('csrftoken');
+
    useEffect(() => {
+      console.log('====================================');
+      console.log(csrftoken);
+      console.log('====================================');
       fetch('/current/')
       .then((response) => response.json())
       .then((data) => setCurrentUser(data.username));
@@ -39,7 +59,8 @@ const Home = () => {
                                  profiles={profiles} 
                                  setSingleProfile={setSingleProfile} 
                                  setToggleProfile={setToggleProfile}
-                                 currentUser={currentUser}/>
+                                 currentUser={currentUser}
+                                 csrftoken={csrftoken}/>
                })}
             </div>
          )}

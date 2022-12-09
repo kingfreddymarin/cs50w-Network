@@ -1,6 +1,6 @@
 const { useEffect, useState } = React;
 
-const Tweet = ({ content, timestamp, creator, likes, profiles, setSingleProfile, setToggleProfile, currentUser, post }) => {
+const Tweet = ({ content, timestamp, creator, likes, profiles, setSingleProfile, setToggleProfile, currentUser, post, csrftoken }) => {
 
     const [likeArray, setLikeArray] = useState(likes);
     const [likesLength, setLikesLength] = useState(likeArray.length)
@@ -25,18 +25,63 @@ const Tweet = ({ content, timestamp, creator, likes, profiles, setSingleProfile,
                 setLikeArray(newArray)
                 setLikesLength(newArray.length)
                 setFill(true)
-                const edit = {
+                axios.post('/like/', {
                     ...post,
-                    likes: likeArray
-                }
-                // console.log(newArray)
-
+                        likes: likeArray,
+                        currentUser: currentUser
+                }, {
+                    headers: {
+                        'X-CSRFToken':csrftoken
+                    }
+                })
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+                // fetch('/like/', {
+                //     method: 'POST',
+                //     headers: {
+                //         'Accept': 'application/json',
+                //         'Content-Type': 'application/json'
+                //     },
+                //     body: JSON.stringify({
+                //         ...post,
+                //         likes: likeArray,
+                //         currentUser: currentUser
+                //     })
+                // })
+                // .then(response => response.json())
+                // .then(result => {
+                //     // Print result
+                //     console.log(result);
+                // });
             } else {
                 let newArray = likeArray.filter(user => user !== currentUser)
                 setLikeArray(newArray)
                 setLikesLength(newArray.length)
                 setFill(false)
-                // console.log(newArray)
+                const edit = {
+                    ...post,
+                    likes: likeArray,
+                    currentUser: currentUser
+                }
+                axios.post('/dislike/', {
+                    ...post,
+                        likes: likeArray,
+                        currentUser: currentUser
+                }, {
+                    headers: {
+                        'X-CSRFToken':csrftoken
+                    }
+                })
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
             }
         }else{
         console.log("sign in first")
