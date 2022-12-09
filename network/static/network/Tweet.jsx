@@ -19,7 +19,6 @@ const Tweet = ({ content, timestamp, creator, likes, profiles, setSingleProfile,
     let likeHandler = () => {
         if(currentUser){
             if(likeArray.indexOf(currentUser)===-1){
-                // likeArray.unshift(currentUser)
                 const newArray = likeArray
                 newArray.unshift(currentUser)
                 setLikeArray(newArray)
@@ -40,23 +39,6 @@ const Tweet = ({ content, timestamp, creator, likes, profiles, setSingleProfile,
                 .catch(function (error) {
                     console.log(error);
                 });
-                // fetch('/like/', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Accept': 'application/json',
-                //         'Content-Type': 'application/json'
-                //     },
-                //     body: JSON.stringify({
-                //         ...post,
-                //         likes: likeArray,
-                //         currentUser: currentUser
-                //     })
-                // })
-                // .then(response => response.json())
-                // .then(result => {
-                //     // Print result
-                //     console.log(result);
-                // });
             } else {
                 let newArray = likeArray.filter(user => user !== currentUser)
                 setLikeArray(newArray)

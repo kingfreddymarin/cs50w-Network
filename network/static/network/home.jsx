@@ -25,9 +25,6 @@ const Home = () => {
    var csrftoken = getCookie('csrftoken');
 
    useEffect(() => {
-      console.log('====================================');
-      console.log(csrftoken);
-      console.log('====================================');
       fetch('/current/')
       .then((response) => response.json())
       .then((data) => setCurrentUser(data.username));
@@ -42,25 +39,25 @@ const Home = () => {
    return (
       <div >
          {toggleProfile && <Profile profile={singleProfile} 
-                                    closeProfile={setToggleProfile} 
-                                    posts={posts} 
-                                    setPosts={setPosts} 
-                                    currentUser={currentUser}
-                                    profiles={profiles} 
-                                    setSingleProfile={setSingleProfile}
-                                    setToggleProfile={setToggleProfile} />}
+            closeProfile={setToggleProfile} 
+            posts={posts} 
+            setPosts={setPosts} 
+            currentUser={currentUser}
+            profiles={profiles} 
+            setSingleProfile={setSingleProfile}
+            setToggleProfile={setToggleProfile} />}
          {!toggleProfile && (
             
             <div>
                
                {posts.map((post) => {
                   return <Tweet key={post.id} {...post}
-                                 post={post} 
-                                 profiles={profiles} 
-                                 setSingleProfile={setSingleProfile} 
-                                 setToggleProfile={setToggleProfile}
-                                 currentUser={currentUser}
-                                 csrftoken={csrftoken}/>
+                     post={post} 
+                     profiles={profiles} 
+                     setSingleProfile={setSingleProfile} 
+                     setToggleProfile={setToggleProfile}
+                     currentUser={currentUser}
+                     csrftoken={csrftoken}/>
                })}
             </div>
          )}

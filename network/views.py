@@ -105,7 +105,6 @@ def current_user(request):
 
 
 @api_view(['POST'])
-@csrf_exempt
 def like(request):
     postId = request.data["id"]
     post = Post.objects.get(id=postId)
@@ -117,7 +116,6 @@ def like(request):
     return Response(request.data)
 
 @api_view(['POST'])
-@csrf_exempt
 def dislike(request):
     postId = request.data["id"]
     post = Post.objects.get(id=postId)
