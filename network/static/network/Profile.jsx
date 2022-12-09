@@ -1,4 +1,3 @@
-
 const Profile = ({ profile, closeProfile, posts, currentUser, profiles, setToggleProfile, setSingleProfile, csrftoken}) => {
    const { id, user, followers, following } = profile;
    const [profilePosts, setProfilePosts] = useState(posts)
