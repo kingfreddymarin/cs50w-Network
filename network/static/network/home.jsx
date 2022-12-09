@@ -45,7 +45,8 @@ const Home = () => {
             currentUser={currentUser}
             profiles={profiles} 
             setSingleProfile={setSingleProfile}
-            setToggleProfile={setToggleProfile} />}
+            setToggleProfile={setToggleProfile} 
+            csrftoken={csrftoken}/>}
          {!toggleProfile && (
             
             <div>

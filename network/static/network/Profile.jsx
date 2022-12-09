@@ -1,19 +1,20 @@
 
-const Profile = ({ profile, closeProfile, posts, currentUser, profiles, setToggleProfile, setSingleProfile}) => {
+const Profile = ({ profile, closeProfile, posts, currentUser, profiles, setToggleProfile, setSingleProfile, csrftoken}) => {
    const { id, user, followers, following } = profile;
    const [profilePosts, setProfilePosts] = useState(posts)
    useEffect(() => {
       setProfilePosts(posts.filter(post => post.creator === profile.user))
-   })
+      console.log(followers)
+   }, [])
    return (
-      <div className="d-flex flex-column">
+      <div key={id} className="d-flex flex-column">
          <div className="ml-2" onClick={() => {
             closeProfile(false)
             document.querySelector("#tweetbox").style.display = "block";
          }}><i class="fa-solid fa-xmark"></i></div>
+
          <div class="container d-flex justify-content-center align-items-center">
             <div class="card">
-
                <div class="user text-center">
                </div>
                <div class="mt-5 text-center">
@@ -39,7 +40,8 @@ const Profile = ({ profile, closeProfile, posts, currentUser, profiles, setToggl
                      profiles={profiles} 
                      setSingleProfile={setSingleProfile} 
                      setToggleProfile={setToggleProfile}
-                     currentUser={currentUser}/>
+                     currentUser={currentUser}
+                     csrftoken={csrftoken}/>
             })}
          </div>
       </div>
