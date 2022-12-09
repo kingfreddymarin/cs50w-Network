@@ -86,6 +86,10 @@ def tweet(request):
     return HttpResponseRedirect(reverse("index"))
 
 
+def following(request):
+    return render(request, "network/following.html")
+
+
 @api_view(['GET'])
 def getPosts(request):
     posts = Post.objects.all().order_by('-timestamp')
