@@ -16,6 +16,7 @@ from .serializers import PostSerializer, ProfileSerializer
 def index(request):
     return render(request, "network/posts.html")
 
+
 def login_view(request):
     if request.method == "POST":
 
@@ -35,9 +36,11 @@ def login_view(request):
     else:
         return render(request, "network/login.html")
 
+
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
+
 
 def register(request):
     if request.method == "POST":
@@ -74,7 +77,7 @@ def tweet(request):
     content = request.POST["content"]
     creator = request.user
     user = User.objects.get(username=creator)
-    creator = Profile.objects.get(user = user)
+    creator = Profile.objects.get(user=user)
     newTweet = Post(
         content=content,
         creator=creator
@@ -82,12 +85,12 @@ def tweet(request):
     newTweet.save()
     return HttpResponseRedirect(reverse("index"))
 
+
 @api_view(['GET'])
 def getPosts(request):
     posts = Post.objects.all().order_by('-timestamp')
     serializer = PostSerializer(posts, many=True)
     return Response(serializer.data)
-    
 
 
 @api_view(['GET'])
@@ -96,11 +99,13 @@ def getProfiles(request):
     serializer = ProfileSerializer(profiles, many=True)
     return Response(serializer.data)
 # get current user
+
+
 @api_view(['GET'])
 def current_user(request):
     user = request.user
     return Response({
-        'username' : user.username,
+        'username': user.username,
     })
 
 
@@ -115,6 +120,7 @@ def like(request):
     post.likes.add(profile)
     return Response(request.data)
 
+
 @api_view(['POST'])
 def dislike(request):
     postId = request.data["id"]
@@ -124,4 +130,30 @@ def dislike(request):
     userId = user.id
     profile = Profile.objects.get(user=userId)
     post.likes.remove(profile)
+    return Response(request.data)
+
+
+@api_view(['POST'])
+def follow(request):
+    currentUser = User.objects.get(username=request.data["currentUser"])
+    currentUserId = currentUser.id
+    currentUserProfile = Profile.objects.get(user=currentUserId)
+    targetUser = User.objects.get(username=request.data["targetUser"])
+    targetUserId = targetUser.id
+    targetUserProfile = Profile.objects.get(user=targetUserId)
+    currentUserProfile.following.add(targetUser)
+    targetUserProfile.followers.add(currentUser)
+    return Response(request.data)
+
+
+@api_view(['POST'])
+def unfollow(request):
+    currentUser = User.objects.get(username=request.data["currentUser"])
+    currentUserId = currentUser.id
+    currentUserProfile = Profile.objects.get(user=currentUserId)
+    targetUser = User.objects.get(username=request.data["targetUser"])
+    targetUserId = targetUser.id
+    targetUserProfile = Profile.objects.get(user=targetUserId)
+    currentUserProfile.following.remove(targetUser)
+    targetUserProfile.followers.remove(currentUser)
     return Response(request.data)
