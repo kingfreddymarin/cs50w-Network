@@ -161,3 +161,13 @@ def unfollow(request):
     currentUserProfile.following.remove(targetUser)
     targetUserProfile.followers.remove(currentUser)
     return Response(request.data)
+
+
+@api_view(['POST'])
+def edit(request):
+    postId = request.data["id"]
+    post = Post.objects.get(id=postId)
+    newContent = request.data["newContent"]
+    post.content = newContent
+    post.save()
+    return Response(request.data)

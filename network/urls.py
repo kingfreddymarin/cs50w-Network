@@ -18,5 +18,7 @@ urlpatterns = [
     path("like/", views.like, name="like"),
     path("dislike/", views.dislike, name="dislike"),
     path("follow/", views.follow, name="follow"),
-    path("unfollow/", views.unfollow, name="unfollow")
+    path("unfollow/", views.unfollow, name="unfollow"),
+    path("edit/", views.edit, name="edit")
+
 ]

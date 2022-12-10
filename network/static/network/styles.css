@@ -303,3 +303,6 @@ img {
 }
 /*/////////////////////////////////////////////////////////////// endpagination */
 
+.onHover:hover{
+  cursor: pointer;
+}
