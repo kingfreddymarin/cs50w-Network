@@ -6,7 +6,15 @@ const FollowingPage = () => {
     const [singleProfile, setSingleProfile] = useState(null)
     const [toggleProfile, setToggleProfile] = useState(false)
     const [currentUser, setCurrentUser] = useState(null)
-    const [userFollowing, setUserFollowing]= useState(null)
+    const [userFollowing, setUserFollowing] = useState(null)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postsPerPage, setPostsPerPage] = useState(5)
+    const followingPosts = []
+    posts.map((post) => {
+        if (userFollowing.indexOf(post.creator) !== -1) {
+            followingPosts.push(post)
+        }
+    })
 
     const getCookie = (name) => {
         var cookieValue = null;
@@ -40,6 +48,15 @@ const FollowingPage = () => {
             .then((response) => response.json())
             .then((data) => setProfiles(data))
     }, []);
+
+    const indexOfLastPost = currentPage * postsPerPage
+    const indexOfFirstPost = indexOfLastPost - postsPerPage
+    const currentPosts = followingPosts.slice(indexOfFirstPost, indexOfLastPost)
+
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber)
+    }
+
     return (
         <div >
             {toggleProfile && <Profile profile={singleProfile}
@@ -53,17 +70,16 @@ const FollowingPage = () => {
                 csrftoken={csrftoken} />}
             {!toggleProfile && (
                 <div>
-                    {posts.map((post) => {
-                        if(userFollowing.indexOf(post.creator) !== -1){
-                            return <Tweet key={post.id} {...post}
+                    {currentPosts.map((post) => {
+                        return <Tweet key={post.id} {...post}
                             post={post}
                             profiles={profiles}
                             setSingleProfile={setSingleProfile}
                             setToggleProfile={setToggleProfile}
                             currentUser={currentUser}
                             csrftoken={csrftoken} />
-                        }
                     })}
+                    <Pagination currentPage={currentPage} postsPerPage={postsPerPage} totalPosts={followingPosts.length} paginate={paginate}></Pagination>
                 </div>
             )}
         </div>

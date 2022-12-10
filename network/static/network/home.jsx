@@ -1,5 +1,5 @@
 const { useEffect, useState } = React;
-// const {ReactPaginate} = window.ReactPaginate["default"]
+// const {ReactPaginate} = window.ReactPaginate
 
 const Home = () => {
    const [posts, setPosts] = useState([])
@@ -7,17 +7,8 @@ const Home = () => {
    const [singleProfile, setSingleProfile] = useState(null)
    const [toggleProfile, setToggleProfile] = useState(false)
    const [currentUser, setCurrentUser] = useState(null)
-   const [itemOffset, setItemOffset] = useState(0);
-   const itemsPerPage = 9
-
-   const endOffset = itemOffset + itemsPerPage;
-   const currentItems = posts.slice(itemOffset, endOffset);
-   const pageCount = Math.ceil(posts.length / itemsPerPage);
-
-   const handlePageClick = (event) => {
-      const newOffset = (event.selected * itemsPerPage) % posts.length;
-      setItemOffset(newOffset);
-   };
+   const [currentPage, setCurrentPage] = useState(1)
+   const [postsPerPage, setPostsPerPage] = useState(10)
 
    const getCookie = (name) => {
       var cookieValue = null;
@@ -46,10 +37,15 @@ const Home = () => {
       fetch('/profiles/')
          .then((response) => response.json())
          .then((data) => setProfiles(data))
-      console.log('====================================');
-      console.log(window);
-      console.log('====================================');
    }, []);
+
+   const indexOfLastPost = currentPage * postsPerPage
+   const indexOfFirstPost = indexOfLastPost - postsPerPage
+   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost)
+
+   const paginate = (pageNumber) => {
+      setCurrentPage(pageNumber)
+   }
 
    return (
       <div>
@@ -65,7 +61,7 @@ const Home = () => {
          {!toggleProfile && (
             <div>
                <div className="tweet-container">
-                  {currentItems.map((post) => {
+                  {currentPosts.map((post) => {
                      return <Tweet key={post.id} {...post}
                         post={post}
                         profiles={profiles}
@@ -75,15 +71,7 @@ const Home = () => {
                         csrftoken={csrftoken} />
                   })}
                </div>
-               {/* <ReactPaginate
-                  breakLabel="..."
-                  nextLabel="next >"
-                  onPageChange={handlePageClick}
-                  pageRangeDisplayed={5}
-                  pageCount={pageCount}
-                  previousLabel="< previous"
-                  renderOnZeroPageCount={null}
-               /> */}
+               <Pagination currentPage={currentPage} postsPerPage={postsPerPage} totalPosts={posts.length} paginate={paginate}></Pagination>
             </div>
          )}
       </div>
