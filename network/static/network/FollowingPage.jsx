@@ -8,7 +8,7 @@ const FollowingPage = () => {
     const [currentUser, setCurrentUser] = useState(null)
     const [userFollowing, setUserFollowing] = useState(null)
     const [currentPage, setCurrentPage] = useState(1)
-    const [postsPerPage, setPostsPerPage] = useState(5)
+    const [postsPerPage, setPostsPerPage] = useState(10)
     const followingPosts = []
     posts.map((post) => {
         if (userFollowing.indexOf(post.creator) !== -1) {
