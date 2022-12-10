@@ -6,7 +6,7 @@ const FollowingPage = () => {
     const [singleProfile, setSingleProfile] = useState(null)
     const [toggleProfile, setToggleProfile] = useState(false)
     const [currentUser, setCurrentUser] = useState(null)
-    const followingArray = profiles.filter(profile=>profile.user === currentUser);
+    const [userFollowing, setUserFollowing]= useState(null)
 
     const getCookie = (name) => {
         var cookieValue = null;
@@ -23,12 +23,16 @@ const FollowingPage = () => {
         }
         return cookieValue;
     }
+
     var csrftoken = getCookie('csrftoken');
 
     useEffect(() => {
         fetch('/current/')
             .then((response) => response.json())
-            .then((data) => setCurrentUser(data.username));
+            .then((data) => {
+                setCurrentUser(data.user)
+                setUserFollowing(data.following)
+            });
         fetch('/posts/')
             .then((response) => response.json())
             .then((data) => setPosts(data));
@@ -49,14 +53,16 @@ const FollowingPage = () => {
                 csrftoken={csrftoken} />}
             {!toggleProfile && (
                 <div>
-                    {posts.filter(post => followingArray.indexOf(post.creator) !== -1).map((post) => {
-                        return <Tweet key={post.id} {...post}
-                        post={post}
-                        profiles={profiles}
-                        setSingleProfile={setSingleProfile}
-                        setToggleProfile={setToggleProfile}
-                        currentUser={currentUser}
-                        csrftoken={csrftoken} />
+                    {posts.map((post) => {
+                        if(userFollowing.indexOf(post.creator) !== -1){
+                            return <Tweet key={post.id} {...post}
+                            post={post}
+                            profiles={profiles}
+                            setSingleProfile={setSingleProfile}
+                            setToggleProfile={setToggleProfile}
+                            currentUser={currentUser}
+                            csrftoken={csrftoken} />
+                        }
                     })}
                 </div>
             )}

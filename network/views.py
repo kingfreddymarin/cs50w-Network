@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.core.serializers import serialize
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
 
 from .models import User, Profile, Post
 from .serializers import PostSerializer, ProfileSerializer
@@ -108,9 +108,9 @@ def getProfiles(request):
 @api_view(['GET'])
 def current_user(request):
     user = request.user
-    return Response({
-        'username': user.username,
-    })
+    profile = Profile.objects.get(user=user)
+    serializer = ProfileSerializer(profile)
+    return Response(serializer.data)
 
 
 @api_view(['POST'])

@@ -27,7 +27,7 @@ const Home = () => {
    useEffect(() => {
       fetch('/current/')
       .then((response) => response.json())
-      .then((data) => setCurrentUser(data.username));
+      .then((data) => {setCurrentUser(data.user)});
       fetch('/posts/')
       .then((response) => response.json())
       .then((data) => setPosts(data));
