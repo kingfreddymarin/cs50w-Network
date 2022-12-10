@@ -15,7 +15,6 @@
       type="text/babel"
       src="{% static 'network/FollowingPage.jsx'%}"
     ></script>
-
     <script
       src="https://kit.fontawesome.com/2b2479925a.js"
       crossorigin="anonymous"
@@ -80,5 +79,9 @@
       </div>
     </nav>
     <div class="body">{% block body %} {% endblock %}</div>
+    <script 
+      src="https://unpkg.com/react-paginate@8.1.4/dist/react-paginate.js"
+      crossorigin
+    ></script>
   </body>
 </html>
